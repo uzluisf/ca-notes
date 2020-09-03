@@ -37,7 +37,6 @@ $$\frac{\text{Performance}_{X}}{\text{Performance}_{Y}} =
 \frac{1/\text{Execution time}_{X}}{1/\text{Execution time}_{Y}} =
 \frac{\text{Execution time}_{Y}}{\text{Execution time}_{X}} = n$$
 
-
 **Example:** If computer A runs a program in 10 seconds and computer B runs the
 same program in 15 seconds, how much faster is A than B?
 
@@ -52,13 +51,13 @@ $$\frac{15}{10} = 1.5$$
 
 meaning than $A$ is $1.5$ times as fast as $B$.
 
-### More on performance
+### CPU time and performance
 
 Time is the measure of computer performance: the computer that performs the same
 amount of work in the least time is the fastest. Program execution time is
 measured in seconds per program.
 
-The **CPU ~~execution~~ time** is the time the CPU spends computing for a given
+The **CPU execution time** is the time the CPU spends computing for a given
 task and does not include time spent waiting for I/O or running other programs.
 Further divided into:
 
@@ -84,8 +83,8 @@ place in the hardware.
 
 $$\frac{1}{5ns} = \frac{1}{5\times 10^{-9} \text{sec}} = 200\text{ MHz}$$
 
-We know that $1 MHz = 1000000\text{ cycles/second}$, thus the aforementioned
-computer performs $20000000$ cycles per second.
+We know that $1\text{ MHz} = 1000000\text{ cycles/second}$, thus the
+aforementioned computer performs $20000000$ cycles per second.
 
 These discrete time intervals are called clock cycles (or ticks, clock ticks,
 clock periods, clocks, cycles). Designers refer to the length of a
@@ -106,11 +105,11 @@ by reducing the *number of clock cycles* required for a program or *the length
 of the clock cycle*.
 
 **Example:** A computer program runs in $10$ seconds on computer A, which has a
-$2GHz$ clock. We want to build a computer, B, that will run the same program in
-$6$ seconds. Increasing in the clock rate is possible, but this increase will
-affect the rest of the CPU design, causing computer B to require $1.2$ times as
-many clock cycles as computer A for this program. What clock rate should we
-target?
+$2\text{ GHz}$ clock. We want to build a computer, B, that will run the same
+program in $6$ seconds. Increasing in the clock rate is possible, but this
+increase will affect the rest of the CPU design, causing computer B to require
+$1.2$ times as many clock cycles as computer A for this program. What clock rate
+should we target?
 
    1. Find the number of clock cycles required for the program on A:
    \begin{align*} \text{CPU time}_A &= \frac{\text{CPU clock
@@ -185,11 +184,11 @@ cycle time}$$
 for a particular computer. The hardware designers have supplied the following
 facts:
 
-|  Instruction class   | CPI | Code sequence 1 | Code sequence 2 | |
--------------------- | --- | --------------- | --------------- | |  A
-|  1  | 2               | 4               | |  B                   |  2  | 1
-| 1               | |  C                   |  3  | 2               | 1
-|
+|  Instruction class | CPI | Code sequence 1 | Code sequence 2 |
+|--------------------| --- | --------------- | --------------- |
+|  A                 |  1  | 2               | 4               |
+|  B                 |  2  | 1               | 1               |
+|  C                 |  3  | 2               | 1               |
 
 1. Which code sequence executes the most instructions?
 
@@ -226,9 +225,6 @@ processor. A new Java compiler is released that requires only 0.6 as many
 instructions as the old compiler. Unfortunately, it increases the CPI by 1.1.
 How fast can we expect the application to run using this new compiler?
 
-
-
-
 # Assembly language programming
 
 ## Intro to MIPS assembly Language
@@ -238,7 +234,6 @@ computer’s language are called **instructions**, and its vocabulary is called 
 **instruction set**. MIPS is an instruction set comes from MIPS Technologies,
 and is an elegant example of the instruction sets designed since the 1980s.
 Among other popular instruction sets there are:
-
 
 * ARMv7 is similar to MIPS. More than 9 billion chips with ARM processors were
   manufactured in 2011, making it the most popular instruction set in the world.
@@ -268,13 +263,14 @@ A MIPS instruction operates on two source operands and places the result in one
 destination operand. The `add` instruction adds the contents of two registers
 and places the result into another one.
 
-``` add $s0, $s1, $s2 # $s0 = $s1 + $s2 sub $s0, $s1, $s2 # $s0 = $s1 - $s2 ```
-
+```
+add $s0, $s1, $s2 # s0 = s1 + s2
+sub $s0, $s1, $s2 # s0 = s1 - s2
+```
 
 **Example:** Given the C statement `f = (g + h) – (i + j);`. The variables f, g,
 h, i, and j are assigned to the registers $s0, $s1, $s2, $s3, and $s4,
 respectively. What is the compiled MIPS code?
-
 
 1. The first MIPS instruction calculates `g + h`. The result must be placed
 somewhere, so the compiler creates a temporary variable `$t0` and places it
@@ -287,13 +283,15 @@ places the difference in the register `$s0` (i.e., variable `f`):
 
 Thus:
 
-``` add $t0, $s1, $s2 # t0 = s1 + s2 add $t1, $s3, $s4 # t1 = s3 + s4 sub $s0,
-$t0, $t1 # s0 = t0 - t1 ```
+```
+add $t0, $s1, $s2 # t0 = s1 + s2
+add $t1, $s3, $s4 # t1 = s3 + s4
+sub $s0, $t0, $t1 # s0 = t0 - t1
+```
 
 are the MIPS instructions for `f = (g + h) – (i + j);`
 
 ### Memory operands: `lw` and `sw`
-
 
 Arithmetic operations occur only on registers in MIPS instructions; thus, MIPS
 must include instructions that transfer data between memory and registers. These
@@ -303,7 +301,10 @@ single-dimensional array, with the address acting as the index to that array,
 starting at 0. For example, the address of the third data element is `2`, and
 the value of ``Memory [2]` is `C`, as shown below:
 
-``` Address | 0 | 1 | 2 | 3 | ...  Data    | A | B | C | 4 | ...  ```
+```
+Address | 0 | 1 | 2 | 3 | ... 
+Data    | A | B | C | 4 | ...
+```
 
 ---
 
@@ -314,8 +315,10 @@ with the memory's data, then a constant (i.e., **offset**) and register used to
 access memory (i.e., **base register**). The sum of the constant portion of the
 instruction and the contents of the second register forms the memory address.
  
-``` lw $s1, 0($s0)  # loads the memory address of s0 into s1 lw $s1, 16($s0) #
-loads the memory address of s0 + 4 into s1 ```
+```
+lw $s1, 0($s0)  # loads the memory address of s0 into s1
+lw $s1, 16($s0) # loads the memory address of s0 + 4 into s1
+```
 
 All offsets are divisible by 4 and increase the memory address by 1 (for each 4
 bits).
@@ -336,8 +339,10 @@ the register corresponding to `g`.
 
 Thus we get:
 
-``` lw $t0, 32($s3)   # t0 = A[8] add $s1, $s2, $t0 # g = h + A[8] ```
-
+```
+lw $t0, 32($s3)   # t0 = A[8]
+add $s1, $s2, $t0 # g = h + A[8]
+```
 
 Notice that the proper offset added to the base register `$s3` is `4 x 8 = 32`,
 and not simply `8`. If we used `8($s3)`, we would select `A[8/4]` (remember
@@ -359,8 +364,11 @@ assignment statement `A[12] = h + A[8];`?
 
 Thus we've:
 
-``` lw $t0, 32($s3)   # t0 = A[8] add $t0, $s2, $t0 # t0 = h + A[8] sw $t0,
-48($s3)   # A[12] = t0 ```
+```
+lw $t0, 32($s3)   # t0 = A[8]
+add $t0, $s2, $t0 # t0 = h + A[8]
+sw $t0, 48($s3)   # A[12] = t0
+```
 
 ---
 
@@ -379,20 +387,24 @@ instructions in which an operand is a constant.
 
 **Example:** To add the constant 4 to register $s3, we could use the code 
 
-``` lw $t0, AddrConstant4($s1)  # t0 = constant 4 add $s3,$s3,$t0             #
-s3 = s3 + t0 ```
+```
+lw $t0, AddrConstant4($s1)  # t0 = constant 4
+add $s3,$s3,$t0             # s3 = s3 + t0
+```
 
 assuming that `$s1 + AddrConstant4` is the memory address of the constant 4.
 
 The same operation can be achieved by using `addi` (*add immediate*) instead:
 
-``` add $s3, $s3, 4 # $s3 = $s3 + 4 ```
+```
+add $s3, $s3, 4 # $s3 = $s3 + 4
+```
 
 By including constants inside arithmetic instructions, operations are much
 faster and use less energy than if constants were loaded from memory. The
 constant zero has another role, which is to simplify the instruction set by
 offering useful variations. For example, the move operation is just an add
-instruction where one operand is zero. Hence, MIPS dedicates a register `$zero`
+instruction where one operand is zero. Hence, MIPS dedicates a register $\$zero$
 to be hard-wired to the value zero. (As you might expect, it is register number
 0.)
 
