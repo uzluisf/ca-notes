@@ -2,7 +2,7 @@
 
 # Resources
 
-* Textbook: Computer Organization and Design
+* Textbook: *Computer Organization and Design*
 * [MIPS instruction
   reference](http://alumni.cs.ucr.edu/~vladimir/cs161/mips.html)
 
